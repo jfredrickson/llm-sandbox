@@ -5,6 +5,17 @@ services:
       - 11434:11434
     volumes:
       - ollama_data:/root/.ollama
+    # Remove the following if no GPU:
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   webui:
     image: ghcr.io/open-webui/open-webui:main
